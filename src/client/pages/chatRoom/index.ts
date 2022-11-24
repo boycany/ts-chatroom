@@ -1,9 +1,13 @@
 import "./index.css";
 import { io } from 'socket.io-client'
 
-import { name } from "@/utils";
+const url = new URL(location.href)
+const userName = url.searchParams.get('user_name')
+const roomName = url.searchParams.get('room_name')
 
-console.log("client side chatroom page", name);
+if(!userName || !roomName){
+    location.href = '/main/main.html'
+}
 
 const clientIo = io()
 
