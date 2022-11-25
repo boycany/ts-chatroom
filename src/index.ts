@@ -14,6 +14,11 @@ const io = new Server(server)
 
 io.on('connection', (socket)=>{
   socket.emit('join', "welcome")  //假設這裡將頻道名取為 join，對應到前端會有相同名字的頻道
+
+  socket.on('chat', (msg)=>{
+    console.log('server chat msg :>> ', msg);
+    io.emit('chat', msg)
+  })
 })
 
 // 執行npm run dev本地開發 or 執行npm run start部署後啟動線上伺服器
