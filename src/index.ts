@@ -23,8 +23,10 @@ io.on("connection", (socket) => {
                 userName,
                 roomName
             );
+            socket.join(userData.roomName)  //根據 user 的 roomName 把他們 join 到不同房間
             userService.addUser(userData);
-            io.emit("join", `${userName} 加入了 ${roomName}`);
+            socket.broadcast.to(userData.roomName).emit("join", `${userName} 加入了 ${roomName}`)
+            //使用 brocast() ，訊息只會發送到該房間的其他人看的到
         }
     );
 
@@ -38,7 +40,7 @@ io.on("connection", (socket) => {
         const userName = userData?.userName;
 
         if (userName) {
-            io.emit("leave", `${userName} 離開聊天室`);
+            socket.broadcast.to(userData.roomName).emit("leave", `${userName} 離開聊天室`);
         }
         userService.removeUser(socket.id);
     });
