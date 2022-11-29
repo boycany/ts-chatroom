@@ -15,6 +15,8 @@ const io = new Server(server);
 const userService = new UserService();
 
 io.on("connection", (socket) => {
+    socket.emit('userID', socket.id)
+
     socket.on(
         "join",
         ({ userName, roomName }: { userName: string; roomName: string }) => {
@@ -31,8 +33,12 @@ io.on("connection", (socket) => {
     );
 
     socket.on("chat", (msg) => {
-        console.log("server chat msg :>> ", msg);
-        io.emit("chat", msg);
+        const userData = userService.getUser(socket.id)
+
+        if(userData){
+            //broadcast 是把訊息發送出去，只能給別人看到。所以如果要看到自己的訊息，就不能用。
+            io.to(userData.roomName).emit('chat',{userData, msg})
+        }
     });
 
     socket.on("disconnect", () => {
