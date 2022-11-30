@@ -4,7 +4,9 @@ module.exports = {
     extend: {
       colors: {
         'card': '#1e1e26',
-        'dark': '#14151a'
+        'dark': '#14151a',
+        'light': '#ffe4c4',
+        'sky': '#87cefa'
       }
     },
   },

@@ -2,7 +2,7 @@ import "./index.css";
 import { io } from "socket.io-client";
 import { UserData } from "@/service/UserService";
 
-type UserMsg = { userData: UserData, msg: string }
+type UserMsg = { userData: UserData, msg: string, time: string }
 
 const url = new URL(location.href);
 const userName = url.searchParams.get("user_name");
@@ -29,13 +29,16 @@ headerRoomName.innerText = roomName || " - "; //roomName 有可能是空值
 let userID = ''
 
 function msgHandler(data: UserMsg){
+    const date = new Date(data.time)
+    const time = `${date.getHours()}:${date.getMinutes()}`
+
     const divBox = document.createElement("div");
     divBox.classList.add("flex", "mb-4", "items-end");
     
     if(data.userData.id === userID){  //自己發的訊息
         divBox.classList.add("justify-end")
         divBox.innerHTML = `
-        <p class="text-xs text-gray-700 mr-4">00:00</p>
+        <p class="text-xs text-gray-700 mr-4">${time}</p>
         <div>
             <p class="text-xs text-white mb-1 text-right">${data.userData.userName}</p>
             <p
@@ -58,7 +61,7 @@ function msgHandler(data: UserMsg){
             </p>
             </div>
 
-            <p class="text-xs text-gray-700 ml-4">00:00</p>
+            <p class="text-xs text-gray-700 ml-4">${time}</p>
         </div>
         `
     }
@@ -93,6 +96,13 @@ submitBtn.addEventListener("click", () => {
     const textValue = textInput.value;
     clientIo.emit("chat", textValue);
 });
+
+textInput.addEventListener("keyup", (e)=>{
+    if(e.key === "Enter"){
+        submitBtn.click()
+    }
+   
+})
 
 backBtn.addEventListener("click", () => {
     location.href = "/main/main.html";

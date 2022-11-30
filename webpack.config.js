@@ -6,7 +6,9 @@ const path = require('path');
 
 const entries = {
   'main': ['./src/client/pages/main/index.ts'],
-  'chatRoom': ['./src/client/pages/chatRoom/index.ts']
+  'chatRoom': ['./src/client/pages/chatRoom/index.ts'],
+  'main2': ['./src/client/pages/main2/index.ts'],
+  'chatRoom2': ['./src/client/pages/chatRoom2/index.ts']
 }
 
 module.exports = {
@@ -61,6 +63,16 @@ module.exports = {
       filename: '[name]/chatRoom.html',
       chunks: ['chatRoom'],
       template: './src/client/pages/chatRoom/index.html'
+    }),
+    new HtmlWebpackPlugin({
+      filename: '[name]/main2.html',
+      chunks: ['main2'],
+      template: './src/client/pages/main2/index.html'
+    }),
+    new HtmlWebpackPlugin({
+      filename: '[name]/chatRoom2.html',
+      chunks: ['chatRoom2'],
+      template: './src/client/pages/chatRoom2/index.html'
     }),
     new MiniCssExtractPlugin({
       filename: '[name]/index.[hash].css'

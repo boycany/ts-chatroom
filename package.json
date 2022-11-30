@@ -28,6 +28,7 @@
     "cssnano": "^5.0.15",
     "express": "^4.17.2",
     "html-webpack-plugin": "^5.3.1",
+    "luxon": "^3.1.1",
     "mini-css-extract-plugin": "^1.6.0",
     "nodemon": "^2.0.16",
     "postcss": "^8.3.5",

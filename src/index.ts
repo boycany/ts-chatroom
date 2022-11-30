@@ -6,6 +6,8 @@ import http from "http";
 import { name } from "@/utils";
 import UserService from "@/service/UserService";
 
+const { DateTime } = require("luxon")
+
 const port = 3000;
 const app = express();
 
@@ -33,11 +35,13 @@ io.on("connection", (socket) => {
     );
 
     socket.on("chat", (msg) => {
+        const time = DateTime.utc()
+        console.log('time :>> ', typeof(time), time);
         const userData = userService.getUser(socket.id)
 
         if(userData){
             //broadcast 是把訊息發送出去，只能給別人看到。所以如果要看到自己的訊息，就不能用。
-            io.to(userData.roomName).emit('chat',{userData, msg})
+            io.to(userData.roomName).emit('chat',{ userData, msg, time })
         }
     });
 
